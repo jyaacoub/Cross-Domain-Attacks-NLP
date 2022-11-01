@@ -22,10 +22,10 @@ This section shows what models we will be testing as we build up to answering ou
 This has already been shown to work in many previous papers. No need to do anything for this.
 
 ## 1. Similar Domain, Same Task:
-Here we replicate how (Datta S. 2022) tested similar domains by examining how adversarial examples for one catagory of amazon reviews transfers to another catagory (e.g.: from baby items to books).
+Here we replicate how [Datta S. 2022](https://arxiv.org/abs/2205.07315) tested similar domains by examining how adversarial examples for one category of amazon reviews transfers to another catagory (e.g.: from baby items to books). Here our similar domains are movie reviews, but from IMBD and from Rotten Tomatoes
 * Model x vs Model Y
-  * model x is ...
-  * model y is ...
+  * As the first model we can use [textattack/roberta-base-imdb](https://huggingface.co/textattack/roberta-base-imdb)
+  * As the second model we can use [textattack/roberta-base-rotten-tomatoes](https://huggingface.co/textattack/roberta-base-rotten-tomatoes)
 
 ## 2. Similar Domain, Different Task:
 Building off of 1 we now try to test how adversarial examples transfer across different tasks (e.g.: sentiment analysis of polarity vs subjectivity).
