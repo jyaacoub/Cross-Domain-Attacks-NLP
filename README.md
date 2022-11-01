@@ -23,7 +23,7 @@ This has already been shown to work in many previous papers. No need to do anyth
 
 ## 1. Similar Domain, Same Task:
 Here we replicate how [Datta S. 2022](https://arxiv.org/abs/2205.07315) tested similar domains by examining how adversarial examples for one category of amazon reviews transfers to another catagory (e.g.: from baby items to books). Here our similar domains are movie reviews, but from IMBD and from Rotten Tomatoes
-* Model x vs Model Y
+* Similar domain being movie reviews but from different sites (*might not be different enough*)
   * As the first model we can use [textattack/roberta-base-imdb](https://huggingface.co/textattack/roberta-base-imdb)
   * As the second model we can use [textattack/roberta-base-rotten-tomatoes](https://huggingface.co/textattack/roberta-base-rotten-tomatoes)
 
@@ -32,18 +32,21 @@ Building off of 1 we now try to test how adversarial examples transfer across di
 * Model x vs Model Y
   * model x is ...
   * model y is ...
+* For SAME DOMAIN we can test sentiment vs Irony with RoBERTa in Tweets (only difference in arch is output layer): (https://arxiv.org/pdf/2010.12421.pdf)
+  * First model (irony, *out-2*): [cardiffnlp/twitter-roberta-base-irony](https://huggingface.co/cardiffnlp/twitter-roberta-base-irony)
+  * Second model (polarity, *out-3*): [cardiffnlp/twitter-roberta-base-sentiment](https://huggingface.co/cardiffnlp/twitter-roberta-base-sentiment)
 
 ## 3. Different Domain, Same Task:
 Now we test how models transfer across different domains but on the same task (e.g.: polarity of amazon reviews vs polarity of tweets; *tweets might not be different enough...*).
-* Model x vs Model Y
-  * model x is ...
-  * model y is ...
+* Using the models from #2 and #3 with roberta-base and sentiment analysis (only difference in arch is output layer)
+  * First model (Twitter, *out-3*): [cardiffnlp/twitter-roberta-base-sentiment](https://huggingface.co/cardiffnlp/twitter-roberta-base-sentiment)
+  * Second model (RT, *out-2*): [textattack/roberta-base-rotten-tomatoes](https://huggingface.co/textattack/roberta-base-rotten-tomatoes)
 
 ## 4. Different Domain, Different Task:
 Finally we arrive at the untimate black-box condition, if we get this far then this tells us a lot about where adversarial examples in NLP come from. It implies that they are a result of low level features of text? it also implies that models across domains have decision boundaries that are very similar.
-* Model x vs Model Y
-  * model x is ...
-  * model y is ...
+* Here we also use RoBERTa. Domains are Rotten Tomatoes and Twitter, and tasks are polarity and irony (no difference in arch)
+  * First model (irony, *out-2*): [cardiffnlp/twitter-roberta-base-irony](https://huggingface.co/cardiffnlp/twitter-roberta-base-irony)
+  * Second model (RT, *out-2*): [textattack/roberta-base-rotten-tomatoes](https://huggingface.co/textattack/roberta-base-rotten-tomatoes)
 
 
 
