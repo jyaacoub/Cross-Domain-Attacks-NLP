@@ -1,0 +1,5 @@
+textattack==0.3.7
+torch==1.12.1
+torchtext==0.13.1
+torchinfo==1.7.1
+transformers==4.24.0
