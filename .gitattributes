@@ -1,0 +1,2 @@
+# To remove Jupyter notebooks from the languages stats of the repo
+*.ipynb linguist-vendored
