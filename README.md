@@ -48,6 +48,8 @@ Finally we arrive at the untimate black-box condition, if we get this far then t
   * First model (irony, *out-2*): [cardiffnlp/twitter-roberta-base-irony](https://huggingface.co/cardiffnlp/twitter-roberta-base-irony)
   * Second model (RT, *out-2*): [textattack/roberta-base-rotten-tomatoes](https://huggingface.co/textattack/roberta-base-rotten-tomatoes)
 
-
-
-
+# References
+- [Cross-Domain Transferability of Adversarial Perturbations](https://arxiv.org/abs/1905.11736)
+- [Learn2Weight: Parameter Adaptation against Similar-domain Adversarial Attacks](https://arxiv.org/abs/2205.07315)
+- [TextAttack: A Framework for Adversarial Attacks, Data Augmentation, and Adversarial Training in NLP](https://arxiv.org/abs/2005.05909)
+- [TweetEval: Unified Benchmark and Comparative Evaluation for Tweet Classification](https://arxiv.org/abs/2010.12421)
