@@ -47,6 +47,18 @@ Finally we arrive at the untimate black-box condition, if we get this far then t
 * Here we also use RoBERTa. Domains are Rotten Tomatoes and Twitter, and tasks are polarity and irony (no difference in arch)
   * First model (irony, *out-2*): [cardiffnlp/twitter-roberta-base-irony](https://huggingface.co/cardiffnlp/twitter-roberta-base-irony)
   * Second model (RT, *out-2*): [textattack/roberta-base-rotten-tomatoes](https://huggingface.co/textattack/roberta-base-rotten-tomatoes)
+  
+# Attacks
+The attacks we will use are listed in the table below, the metrics were obtained using 100 sentences from [rotten_tomatoes](https://huggingface.co/datasets/rotten_tomatoes) and using [roberta-base-imdb](https://huggingface.co/textattack/roberta-base-imdb) as the target model to benchmark the different attacks.
+
+|     **Attack**     | **Time (s)** | **Original_Accuracy** | **Perturbed_accuracy** |
+|:------------------:|:------------:|:---------------------:|:----------------------:|
+|     A2TYoo2021     |     77.9     |           90          |           66           |
+|     BAEGarg2019    |     250.5    |           90          |           34           |
+| DeepWordBugGao2018 |     79.4     |           90          |           11           |
+|     PWWSRen2019    |     335.7    |           90          |            5           |
+|  TextBuggerLi2018  |      135     |           90          |           27           |
+|  TextFoolerJin2019 |     240.2    |           90          |            0           |
 
 # References
 - [Cross-Domain Transferability of Adversarial Perturbations](https://arxiv.org/abs/1905.11736)
