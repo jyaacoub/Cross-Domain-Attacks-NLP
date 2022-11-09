@@ -1,5 +1,7 @@
+sentence-transformers==2.2.2
 textattack==0.3.7
 torch==1.12.1
+torchfile==0.1.0
 torchtext==0.13.1
 torchinfo==1.7.1
 transformers==4.24.0
