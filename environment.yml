@@ -2,9 +2,10 @@ name: CD_NLP
 channels:
   - conda-forge
 dependencies:
-  - python=3.7.3
+  - python=3.9
   - pip
   - pip:
-    - transformers 
-    - torchinfo 
-    - textattack
+    - flair>=0.11
+    - pycld2
+    - torchinfo
+    - textattack[transformers]
