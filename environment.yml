@@ -1,0 +1,10 @@
+name: CD_NLP
+channels:
+  - conda-forge
+dependencies:
+  - python=3.7.3
+  - pip
+  - pip:
+    - transformers 
+    - torchinfo 
+    - textattack
