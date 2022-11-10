@@ -9,3 +9,5 @@ dependencies:
     - pycld2
     - torchinfo
     - textattack[transformers]
+    - tensorflow_hub
+    - tensorflow
