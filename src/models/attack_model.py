@@ -5,8 +5,7 @@ from textattack.datasets import HuggingFaceDataset
 from textattack.models.wrappers import HuggingFaceModelWrapper
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
 
-from common.constants import MDL_TWIT_POLARITY  # huggingface model paths
-from common.constants import MDL_IMDB_POLARITY, MDL_RT_POLARITY, MDL_TWIT_IRONY
+from src.common.constants import MODEL_PATHS, DATASET_PATHS
 import time
 
 
@@ -15,13 +14,10 @@ class AttackModel:
     Loads attack models from a given huggingface model path into a wrapper class.
     and preps the model and dataset for attack.
     """
-    # Models to load as static variables for easy access:
-    IMDB_POLARITY = MDL_IMDB_POLARITY
-    RT_POLARITY = MDL_RT_POLARITY # Rotten Tomatoes
-    TWIT_POLARITY = MDL_TWIT_POLARITY
-    TWIT_IRONY = MDL_TWIT_IRONY
+    MODELS = MODEL_PATHS
+    DATASETS = DATASET_PATHS
     
-    def __init__(self, model_path=MDL_IMDB_POLARITY, use_cuda=False, 
+    def __init__(self, model_path=MODEL_PATHS.list()[0], use_cuda=False, 
                  attack_recipe=TextFoolerJin2019, target_dataset='rotten_tomatoes'):
         self.model_path = model_path
         
@@ -52,16 +48,19 @@ class AttackModel:
                      disable_stdout=True, silent=True, **kwargs):
         """
         This initiates the attack on the target domain by generating adversarial examples 
-        using our attack model.
+        using our attack model and returns the results. 
 
         Args:
             num_examples (`int`, optional): Number of examples to generate. Defaults to 10.
             log (`bool`, optional): Logs the examples to a file if True. Defaults to False.
-            disable_stdout (`bool`, optional): Disable displaying individual attack results to stdout. Defaults to True.
-            silent (`bool`, optional): Disable all logging (except for errors). Defaults to True.
+            disable_stdout (`bool`, optional): Disable displaying individual attack results 
+                to stdout. Defaults to True.
+            silent (`bool`, optional): Disable all logging (except for errors). Defaults to 
+                True.
 
         Returns:
-            List[AttackResults]: returns a list of textattack.AttackResults containing the original and perturbed text as well as outputs
+            List[AttackResults]: returns a list of textattack.AttackResults containing the 
+                original and perturbed text as well as outputs
         """
         
         if log:
