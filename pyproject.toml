@@ -1,0 +1,9 @@
+[tool.black]
+line-length = 88
+skip-string-normalization = true
+verbose = true
+target-version = ['py37', 'py38']
+
+[tool.isort]
+profile = 'black'
+verbose = true
