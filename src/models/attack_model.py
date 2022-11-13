@@ -5,6 +5,7 @@ from textattack import AttackArgs, Attacker
 from textattack.attack_recipes import TextFoolerJin2019
 from textattack.datasets import HuggingFaceDataset
 from textattack.models.wrappers import HuggingFaceModelWrapper
+from tqdm import tqdm
 from transformers import AutoModelForSequenceClassification, AutoTokenizer, logging
 
 from src.common.constants import DATASET_PATHS, MODEL_PATHS
@@ -47,15 +48,60 @@ class AttackModel:
 
         # building attack and getting dataset
         self.attack = attack_recipe.build(self.model_wrapped)
+        # For the Twitter models we need the "sentiment" subset of the dataset
+        self.subset = "sentiment" if target_dataset == "tweet_eval" else None
         self.target_dataset = self.set_target_dataset(target_dataset)
+        self.attack_dataset = self.set_attack_dataset()
+
+    # TODO: create a function that takes batches of texts
+    def make_prediction(self, text: str) -> int:
+        """
+        Makes a prediction for a single text/sentence.
+        """
+        encoded_input = self.model_tokenizer(text, return_tensors='pt')
+        for (k, tensor) in encoded_input.items():
+            encoded_input[k] = tensor.to(self.device)
+
+        prediction = self.model(**encoded_input).logits.softmax(dim=1).argmax().item()
+
+        return prediction
 
     def set_target_dataset(self, new_target: str):  # changes the target dataset
-        self.target_dataset = (
-            HuggingFaceDataset(  # dataset that is targeted by the attack
-                name_or_dataset=new_target, subset=None, split='test', shuffle=False
-            )
+        """
+        The target dataset is from the TargetModel domain.
+        """
+        return HuggingFaceDataset(  # dataset that is targeted by the attack
+            name_or_dataset=new_target,
+            subset=self.subset,
+            split='test',
+            shuffle=False,
         )
-        return self.target_dataset
+
+    def set_attack_dataset(self):
+        """
+        Maps the target dataset to the output of the AttackModel.
+
+        That is, AttackModel will make predictions on the target dataset as an oracle and we
+        will use these new labels to create the adversarial examples for AttackModel that we
+        expect are going to transfer to the TargetModel.
+        """
+        original_dataset = self.target_dataset._dataset
+        texts = tqdm(
+            original_dataset['text'],
+            leave=False,
+            desc='Mapping target dataset to AttackModel',
+        )
+        attack_model_labels = [self.make_prediction(text) for text in texts]
+
+        original_dataset = original_dataset.add_column(
+            name="label_attack_model", column=attack_model_labels
+        )
+
+        return HuggingFaceDataset(
+            name_or_dataset=original_dataset,
+            dataset_columns=(["text"], "label_attack_model"),
+            shuffle=False,
+        )
 
     def generate_target_examples(
         self, num_examples=10, log=True, disable_stdout=True, silent=True, **kwargs
@@ -77,10 +123,9 @@ class AttackModel:
                 original and perturbed text as well as outputs
         """
         if log:
-            log_to_csv = "attacks/{}-{}-{}.csv".format(
+            log_to_csv = "attacks/{}-{}.csv".format(
                 self.model_path.split("/")[-1],
                 self.target_dataset._name,
-                time.strftime("%m%d_%H%M"),
             )
         else:
             log_to_csv = None
@@ -94,5 +139,6 @@ class AttackModel:
             **kwargs,
         )
 
-        attack = Attacker(self.attack, self.target_dataset, attack_args)
+        # NOTE: here it must be done with attack_dataset, not with target_dataset
+        attack = Attacker(self.attack, self.attack_dataset, attack_args)
         return attack.attack_dataset()

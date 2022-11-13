@@ -47,7 +47,7 @@ class TargetModel:
 
     def evaluate_attack(self, log_csv: str):
         """
-        Evaluates the attacks created with another model that were stored in log_csv.
+        Evaluates the attacks created with AttackModel that were stored in log_csv.
         """
         logs = pd.read_csv(log_csv)
         # TextAttack adds "[[ ]]" to the words/tokens that were changed, so we have to remove them

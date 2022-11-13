@@ -25,4 +25,4 @@ class MODEL_PATHS(ExtendedEnum):
 class DATASET_PATHS(ExtendedEnum):
     DATA_RT = 'rotten_tomatoes'
     DATA_IMDB = 'imdb'
-    DATA_TWIT = 'twitter'
+    DATA_TWIT = 'tweet_eval'
