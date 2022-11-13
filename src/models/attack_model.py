@@ -5,9 +5,11 @@ from textattack import AttackArgs, Attacker
 from textattack.attack_recipes import TextFoolerJin2019
 from textattack.datasets import HuggingFaceDataset
 from textattack.models.wrappers import HuggingFaceModelWrapper
-from transformers import AutoModelForSequenceClassification, AutoTokenizer
+from transformers import AutoModelForSequenceClassification, AutoTokenizer, logging
 
 from src.common.constants import DATASET_PATHS, MODEL_PATHS
+
+logging.set_verbosity_error()
 
 
 class AttackModel:
@@ -21,12 +23,12 @@ class AttackModel:
 
     def __init__(
         self,
-        model_path=MODEL_PATHS.list()[0],
-        use_cuda=False,
+        model_name: str = "MDL_IMDB_POLARITY",
+        target_dataset: str = 'rotten_tomatoes',
+        use_cuda: bool = False,
         attack_recipe=TextFoolerJin2019,
-        target_dataset='rotten_tomatoes',
     ):
-        self.model_path = model_path
+        self.model_path = self.MODELS[model_name].value
 
         # extracting model and tokenizer from model path::
         self.model_tokenizer = AutoTokenizer.from_pretrained(self.model_path)
@@ -56,7 +58,7 @@ class AttackModel:
         return self.target_dataset
 
     def generate_target_examples(
-        self, num_examples=10, log=False, disable_stdout=True, silent=True, **kwargs
+        self, num_examples=10, log=True, disable_stdout=True, silent=True, **kwargs
     ):
         """
         This initiates the attack on the target domain by generating adversarial examples
@@ -74,7 +76,6 @@ class AttackModel:
             List[AttackResults]: returns a list of textattack.AttackResults containing the
                 original and perturbed text as well as outputs
         """
-
         if log:
             log_to_csv = "attacks/{}-{}-{}.csv".format(
                 self.model_path.split("/")[-1],
@@ -89,6 +90,7 @@ class AttackModel:
             log_to_csv=log_to_csv,
             disable_stdout=disable_stdout,
             silent=silent,
+            random_seed=42,
             **kwargs,
         )
 
