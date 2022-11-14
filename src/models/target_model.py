@@ -17,7 +17,7 @@ class TargetModel:
     MODELS = MODEL_PATHS
     DATASETS = DATASET_PATHS
 
-    def __init__(self, model_name: str = "MDL_IMDB_POLARITY", use_cuda: bool = False):
+    def __init__(self, model_name: str = "MDL_IMDB_SENTIMENT", use_cuda: bool = False):
         self.model_path = self.MODELS[model_name].value
 
         # extracting model and tokenizer from model path::
@@ -63,10 +63,10 @@ class TargetModel:
 
         # NOTE: be careful with the ground_truth_output, since in some cases the task will be different
         original_accuracy = (
-            logs['ground_truth_output'] == logs['original_output']
-        ).sum() / len(logs)
+            logs['ground_truth_output_target'] == logs['original_output']
+        ).mean()
         perturbed_accuracy = (
-            logs['ground_truth_output'] == logs['perturbed_output']
-        ).sum() / len(logs)
+            logs['ground_truth_output_target'] == logs['perturbed_output']
+        ).mean()
 
         return original_accuracy, perturbed_accuracy

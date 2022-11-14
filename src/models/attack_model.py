@@ -1,5 +1,4 @@
-import time
-
+import pandas as pd
 import torch
 from textattack import AttackArgs, Attacker
 from textattack.attack_recipes import TextFoolerJin2019
@@ -24,7 +23,7 @@ class AttackModel:
 
     def __init__(
         self,
-        model_name: str = "MDL_IMDB_POLARITY",
+        model_name: str = "MDL_IMDB_SENTIMENT",
         target_dataset: str = 'rotten_tomatoes',
         use_cuda: bool = False,
         attack_recipe=TextFoolerJin2019,
@@ -104,7 +103,13 @@ class AttackModel:
         )
 
     def generate_target_examples(
-        self, num_examples=10, log=True, disable_stdout=True, silent=True, **kwargs
+        self,
+        num_examples: int = 10,
+        log: bool = True,
+        disable_stdout: bool = True,
+        silent: bool = True,
+        dir: str = "attacks",
+        **kwargs,
     ):
         """
         This initiates the attack on the target domain by generating adversarial examples
@@ -123,7 +128,8 @@ class AttackModel:
                 original and perturbed text as well as outputs
         """
         if log:
-            log_to_csv = "attacks/{}-{}.csv".format(
+            log_to_csv = "logs/{}/{}-{}.csv".format(
+                dir,
                 self.model_path.split("/")[-1],
                 self.target_dataset._name,
             )
@@ -141,4 +147,14 @@ class AttackModel:
 
         # NOTE: here it must be done with attack_dataset, not with target_dataset
         attack = Attacker(self.attack, self.attack_dataset, attack_args)
-        return attack.attack_dataset()
+        attack_results = attack.attack_dataset()
+
+        if log_to_csv:
+            logs = pd.read_csv(log_to_csv)
+            # Add the ground_truth of the original dataset to the logs, not of the attack dataset
+            logs['ground_truth_output_target'] = self.target_dataset._dataset['label'][
+                0 : len(logs)
+            ]
+            logs.to_csv(log_to_csv, index=False)
+
+        return attack_results
