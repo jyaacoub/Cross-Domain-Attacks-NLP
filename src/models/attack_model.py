@@ -46,6 +46,7 @@ class AttackModel:
         self.model_wrapped = HuggingFaceModelWrapper(self.model, self.model_tokenizer)
 
         # building attack and getting dataset
+        self.attack_recipe = attack_recipe
         self.attack = attack_recipe.build(self.model_wrapped)
         # For the Twitter models we need the "sentiment" subset of the dataset
         self.subset = "sentiment" if target_dataset == "tweet_eval" else None
@@ -128,8 +129,9 @@ class AttackModel:
                 original and perturbed text as well as outputs
         """
         if log:
-            log_to_csv = "logs/{}/{}-{}.csv".format(
+            log_to_csv = "logs/{}/{}-{}-{}.csv".format(
                 dir,
+                self.attack_recipe.__name__,
                 self.model_path.split("/")[-1],
                 self.target_dataset._name,
             )

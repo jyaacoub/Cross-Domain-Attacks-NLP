@@ -43,7 +43,7 @@ DOMAINS = {
 }
 
 ATTACKS_RECIPES = [
-    # A2TYoo2021,
+    A2TYoo2021,
     # BAEGarg2019,
     DeepWordBugGao2018,
     # PSOZang2020,
@@ -63,7 +63,7 @@ def main():
                 use_cuda=True
             )
             attack_results = attack_model.generate_target_examples(
-                num_examples=5, 
+                num_examples=10, 
                 log=True,
                 dir=domain_name
             )
