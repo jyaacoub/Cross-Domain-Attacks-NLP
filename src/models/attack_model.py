@@ -106,6 +106,7 @@ class AttackModel:
     def generate_target_examples(
         self,
         num_examples: int = 10,
+        query_budget: int = 200,
         log: bool = True,
         disable_stdout: bool = True,
         silent: bool = True,
@@ -144,6 +145,7 @@ class AttackModel:
             disable_stdout=disable_stdout,
             silent=silent,
             random_seed=42,
+            query_budget=query_budget, # To reduce running time of the attacks
             **kwargs,
         )
 
