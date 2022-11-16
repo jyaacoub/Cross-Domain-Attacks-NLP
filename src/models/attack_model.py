@@ -145,7 +145,7 @@ class AttackModel:
             disable_stdout=disable_stdout,
             silent=silent,
             random_seed=42,
-            query_budget=query_budget, # To reduce running time of the attacks
+            query_budget=query_budget,  # To reduce running time of the attacks
             **kwargs,
         )
 

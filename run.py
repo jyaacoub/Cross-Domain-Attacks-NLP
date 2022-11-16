@@ -71,7 +71,8 @@ def main():
                 num_examples=1000, 
                 query_budget=200,  # To reduce the running time
                 log=True,
-                dir=domain_name
+                dir=domain_name,
+                # **{"parallel": True, "num_workers_per_device": 4}
             )
 
 if __name__ == "__main__":
