@@ -2,6 +2,9 @@
 This is where we will run the application from and do tests
 """
 from tqdm import tqdm
+from os import listdir
+from os.path import isfile, join
+import pandas as pd
 
 from textattack.attack_recipes import (
     A2TYoo2021,
@@ -52,27 +55,27 @@ ATTACKS_RECIPES = [
 ]
 
 def main():
-    for domain_name in tqdm(DOMAINS, desc="Domains"):
+    results = pd.DataFrame()
+    for domain_name in tqdm(DOMAINS):
         domain = DOMAINS[domain_name]
-        for attack_recipe in tqdm(ATTACKS_RECIPES, desc='Attacks', leave=False):
-            # "Substitute" model we are using to create adversarial examples with
-            # a predefined attack recipe from TextAttack
-            attack_model = AttackModel(
-                model_name=domain["attack_model"],
-                target_dataset=domain["target_dataset"],
-                attack_recipe=attack_recipe,
-                use_cuda=True
-            )
-
-            # We will generate 1,000 adversarial examples with the substitute model
-            # and see how well they transfer to the other model in the other domain
-            attack_results = attack_model.generate_target_examples(
-                num_examples=1000, 
-                query_budget=200,  # To reduce the running time
-                log=True,
-                dir=domain_name,
-                # **{"parallel": True, "num_workers_per_device": 4}
-            )
+        
+        target_model = TargetModel(
+            model_name=domain["target_model"],
+            use_cuda=True
+        )
+        
+        path = f"logs/{domain_name}"
+        logs = sorted([file for file in listdir(path) if isfile(join(path, file))])
+        
+        
+        new_row = {'Domain': domain_name}
+        for log_csv in logs:
+            original_accuracy, perturbed_accuracy = target_model.evaluate_attack(join(path, log_csv))
+            
+            new_row['Original accuracy'] = original_accuracy
+            new_row[f'{log_csv.split("-")[0]} accuracy'] = perturbed_accuracy
+            
+        results = results.append(new_row, ignore_index=True)
 
 if __name__ == "__main__":
     main()
