@@ -156,9 +156,9 @@ class AttackModel:
         if log_to_csv:
             logs = pd.read_csv(log_to_csv)
             # Add the ground_truth of the original dataset to the logs, not of the attack dataset
-            logs['ground_truth_output_target'] = self.target_dataset._dataset['label'][
-                0 : len(logs)
-            ]
+            text_to_label = dict(zip(self.target_dataset._dataset['text'], self.target_dataset._dataset['label']))
+            logs['ground_truth_output_target'] = logs["original_text"].apply(lambda x: x.replace("[[", "").replace("]]", "")).map(text_to_label)
+            
             logs.to_csv(log_to_csv, index=False)
 
         return attack_results
