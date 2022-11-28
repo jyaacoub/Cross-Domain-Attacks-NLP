@@ -49,7 +49,7 @@ class AttackModel:
         self.attack_recipe = attack_recipe
         self.attack = attack_recipe.build(self.model_wrapped)
         # For the Twitter models we need the "sentiment" subset of the dataset
-        self.subset = "sentiment" if target_dataset == "tweet_eval" else None
+        self.subset = "offensive" if target_dataset == "tweet_eval" else None
         self.target_dataset = self.set_target_dataset(target_dataset)
         self.attack_dataset = self.set_attack_dataset()
 
