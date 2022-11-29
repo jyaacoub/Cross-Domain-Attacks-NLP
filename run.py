@@ -30,7 +30,7 @@ DOMAINS = {
     },
     # Jean
     "different_domain_same_task": {
-        "attack_model": "MDL_TWIT_OFFENSIVE",  # output_labels: 3
+        "attack_model": "MDL_TWIT_SENTIMENT",  # output_labels: 3
         "target_model": "MDL_RT_SENTIMENT",    # output_labels: 2
         "target_dataset": "rotten_tomatoes"
     },

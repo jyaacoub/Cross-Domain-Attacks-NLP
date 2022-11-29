@@ -17,8 +17,10 @@ class MODEL_PATHS(ExtendedEnum):
     MDL_RT_SENTIMENT = 'textattack/roberta-base-rotten-tomatoes'  # Output: LABEL_0 (negative) LABEL_1 (positive)
 
     # TWITTER DOMAIN
-    MDL_TWIT_IRONY = 'cardiffnlp/bertweet-base-irony'          # Output: LABEL_0 (non-ironic) LABEL_1 (ironic)
-    MDL_TWIT_OFFENSIVE = 'cardiffnlp/bertweet-base-offensive'  # Output: LABEL_0 (Not-offensive), LABEL_1 (Offensive)
+    MDL_TWIT_IRONY = 'cardiffnlp/bertweet-base-irony'                 # Output: LABEL_0 (non-ironic) LABEL_1 (ironic)
+    MDL_TWIT_OFFENSIVE = 'cardiffnlp/bertweet-base-offensive'         # Output: LABEL_0 (Not-offensive), LABEL_1 (Offensive)
+    MDL_TWIT_SENTIMENT = 'cardiffnlp/twitter-roberta-base-sentiment'  # Output: LABEL_0 (Negative), LABEL_1 (Neutral), LABEL_2 (Positive)
+    # MDL_TWIT_IRONY = 'cardiffnlp/twitter-roberta-base-irony'        # Output: LABEL_0 (non-ironic) LABEL_1 (ironic)
 
 
 # Datasets:
