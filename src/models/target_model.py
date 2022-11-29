@@ -37,7 +37,7 @@ class TargetModel:
         """
         Makes a prediction for a single text/sentence.
         """
-        encoded_input = self.model_tokenizer(text, return_tensors='pt')
+        encoded_input = self.model_tokenizer(text, return_tensors='pt', truncation=True)
         for (k, tensor) in encoded_input.items():
             encoded_input[k] = tensor.to(self.device)
 
@@ -45,7 +45,7 @@ class TargetModel:
 
         return prediction
 
-    def evaluate_attack(self, log_csv: str):
+    def evaluate_attack(self, log_csv: str, save_csv: bool = True):
         """
         Evaluates the attacks created with AttackModel that were stored in log_csv.
         """
@@ -58,15 +58,18 @@ class TargetModel:
             lambda x: x.replace("[[", "").replace("]]", "")
         )
 
-        logs['original_output'] = logs["original_text"].apply(self.make_prediction)
-        logs['perturbed_output'] = logs["perturbed_text"].apply(self.make_prediction)
+        logs['original_output_target'] = logs["original_text"].apply(self.make_prediction)
+        logs['perturbed_output_target'] = logs["perturbed_text"].apply(self.make_prediction)
 
         # NOTE: be careful with the ground_truth_output, since in some cases the task will be different
         original_accuracy = (
-            logs['ground_truth_output_target'] == logs['original_output']
+            logs['ground_truth_output_target'] == logs['original_output_target']
         ).mean()
         perturbed_accuracy = (
-            logs['ground_truth_output_target'] == logs['perturbed_output']
+            logs['ground_truth_output_target'] == logs['perturbed_output_target']
         ).mean()
+
+        if save_csv:
+            logs.to_csv(log_csv, index=False)
 
         return original_accuracy, perturbed_accuracy
