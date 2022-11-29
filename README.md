@@ -60,6 +60,35 @@ The attacks we will use are listed in the table below, the metrics were obtained
 |  TextBuggerLi2018  |      135     |           90          |           27           |
 |  TextFoolerJin2019 |     240.2    |           90          |            0           |
 
+# Results
+
+## Setup
+
+|              **Domain**             |            **Substitute model**           |             **Target model**            |
+|:-----------------------------------:|:-----------------------------------------:|:---------------------------------------:|
+|     **similar_domain_same_task**    |        textattack/roberta-base-imdb       | textattack/roberta-base-rotten-tomatoes |
+|  **similar_domain_different_task**  |       cardiffnlp/bertweet-base-irony      |    cardiffnlp/bertweet-base-offensive   |
+|    **different_domain_same_task**   | cardiffnlp/twitter-roberta-base-sentiment | textattack/roberta-base-rotten-tomatoes |
+| **different_domain_different_task** |   cardiffnlp/twitter-roberta-base-irony   |  cardiffnlp/twitter-roberta-base-irony  |
+
+## Attacks
+
+|              **Domain**             | **Original accuracy** | **A2TYoo2021 accuracy** | **BAEGarg2019 accuracy** | **DeepWordBugGao2018 accuracy** | **PWWSRen2019 accuracy** | **TextBuggerLi2018 accuracy** | **TextFoolerJin2019 accuracy** |
+|:-----------------------------------:|:---------------------:|:-----------------------:|:------------------------:|:-------------------------------:|:------------------------:|:-----------------------------:|:------------------------------:|
+|     **similar_domain_same_task**    |         88.30         |          80.60          |           62.20          |              61.10              |           69.40          |             70.70             |              67.10             |
+|  **similar_domain_different_task**  |         84.65         |          83.60          |           81.62          |              81.39              |           80.81          |             83.02             |              82.09             |
+|    **different_domain_same_task**   |         88.30         |          85.00          |           72.90          |              77.40              |           76.60          |             81.00             |              79.70             |
+| **different_domain_different_task** |         88.30         |          86.10          |           82.20          |              80.70              |           82.90          |             84.80             |              82.20             |
+
+## Reverse attacks
+
+|              **Domain**             | **Original accuracy** | **A2TYoo2021 accuracy** | **BAEGarg2019 accuracy** | **DeepWordBugGao2018 accuracy** | **PWWSRen2019 accuracy** | **TextBuggerLi2018 accuracy** | **TextFoolerJin2019 accuracy** |
+|:-----------------------------------:|:---------------------:|:-----------------------:|:------------------------:|:-------------------------------:|:------------------------:|:-----------------------------:|:------------------------------:|
+|     **similar_domain_same_task**    |         95.00         |          83.20          |           81.30          |              81.90              |           94.80          |             86.80             |              88.30             |
+|  **similar_domain_different_task**  |         84.69         |          81.25          |           82.01          |              83.41              |           82.65          |             83.80             |              80.61             |
+|    **different_domain_same_task**   |         70.50         |          69.00          |           60.70          |              61.50              |           61.00          |             64.70             |              64.30             |
+| **different_domain_different_task** |         84.69         |          80.86          |           80.86          |              78.31              |           81.25          |             83.03             |              79.71             |
+
 # References
 - [Cross-Domain Transferability of Adversarial Perturbations](https://arxiv.org/abs/1905.11736)
 - [Learn2Weight: Parameter Adaptation against Similar-domain Adversarial Attacks](https://arxiv.org/abs/2205.07315)
