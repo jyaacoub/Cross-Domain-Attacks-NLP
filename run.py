@@ -25,7 +25,7 @@ DOMAINS = {
     # David
     "similar_domain_different_task": {
         "attack_model": "MDL_TWIT_IRONY",      # output_labels: 2
-        "target_model": "MDL_TWIT_OFFENSIVE",  # output_labels: 3
+        "target_model": "MDL_TWIT_SENTIMENT",  # output_labels: 3
         "target_dataset": "tweet_eval"
     },
     # Jean

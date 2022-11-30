@@ -64,12 +64,12 @@ The attacks we will use are listed in the table below, the metrics were obtained
 
 ## Setup
 
-|              **Domain**             |            **Substitute model**           |             **Target model**            |
-|:-----------------------------------:|:-----------------------------------------:|:---------------------------------------:|
-|     **similar_domain_same_task**    |        textattack/roberta-base-imdb       | textattack/roberta-base-rotten-tomatoes |
-|  **similar_domain_different_task**  |       cardiffnlp/bertweet-base-irony      |    cardiffnlp/bertweet-base-offensive   |
-|    **different_domain_same_task**   | cardiffnlp/twitter-roberta-base-sentiment | textattack/roberta-base-rotten-tomatoes |
-| **different_domain_different_task** |   cardiffnlp/twitter-roberta-base-irony   |  cardiffnlp/twitter-roberta-base-irony  |
+|              **Domain**             |                **Substitute model**               |                 **Target model**                |
+|:-----------------------------------:|:-------------------------------------------------:|:-----------------------------------------------:|
+|     **similar_domain_same_task**    |            textattack/roberta-base-imdb           |     textattack/roberta-base-rotten-tomatoes     |
+|  **similar_domain_different_task**  |       cardiffnlp/twitter-roberta-base-irony       |    cardiffnlp/twitter-roberta-base-sentiment    |
+|    **different_domain_same_task**   |     cardiffnlp/twitter-roberta-base-sentiment     |     textattack/roberta-base-rotten-tomatoes     |
+| **different_domain_different_task** |       cardiffnlp/twitter-roberta-base-irony       |    cardiffnlp/twitter-roberta-base-sentiment    |
 
 ## Attacks
 
