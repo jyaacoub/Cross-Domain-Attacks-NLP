@@ -1,5 +1,8 @@
 # Cross-Domain-Attacks-NLP
 
+# Poster:
+For a visual overview of the project we have a poster [here](https://www.cs.toronto.edu/~jyaacoub/Cross_Domain_Transferability_of_Adversarial_Attacks_in_NLP.pdf)
+
 # File Structure:
 
 * **media/** - relevent figures and results here
